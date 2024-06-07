@@ -1,7 +1,8 @@
+import lodash from 'lodash'
 import { Db, MongoClient } from 'mongodb'
 import { config } from './config'
+import { crawl } from './crawl'
 import { notify } from './notify'
-import { retrieveState } from './retrieve'
 import { Store } from './types'
 
 const client = new MongoClient(config.db.uri)
@@ -30,11 +31,10 @@ const main = async () => {
 // Run processing logic for a specific store
 const processStore = async (db: Db, store: Store): Promise<void> => {
   // Retrieve current state
-  const { tracker, cookie } = store
-  const state = await retrieveState(tracker, cookie)
+  const state = await crawl(store.tracker, store.cookie)
 
   // If state was updated, notify and persist store with new state
-  if (state != store.state) {
+  if (!lodash.isEqual(state, store.state)) {
     console.log(`${store._id}: detected an update to state`)
 
     store.state = state

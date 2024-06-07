@@ -31,7 +31,7 @@ export interface State {
   title: string
   status: string,
   events: {
-    title: string,
+    name: string,
     date: string
   }[]
 }

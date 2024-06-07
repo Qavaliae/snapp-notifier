@@ -1,10 +1,9 @@
 import axios from 'axios'
 import { load } from 'cheerio'
 import { State } from './types'
-import { title } from 'process'
 
 // Retrieve current state
-export const retrieveState = async (
+export const crawl = async (
   tracker: string,
   cookie: string,
 ): Promise<State> => {
@@ -24,11 +23,15 @@ export const retrieveState = async (
   const title = $('.c-banner__title').text()
   const status = $('.c-details-status__title').text()
 
-  console.log({title, status})
+  // Read events
+  const events: State['events'] = []
+  $('.c-details-history__description-row').each((_, el) => {
+    events.push({
+      name: $(el).find('td').eq(0).text(),
+      date: $(el).find('td').eq(1).text(),
+    })
+  })
 
-  return {
-    title,
-    status,
-    events: [],
-  } satisfies State
+  // Return state
+  return { title, status, events }
 }

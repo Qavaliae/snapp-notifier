@@ -30,7 +30,7 @@ export const notify = async (store: Store) => {
         await mailer
           .sendMail({
             from: {
-              name: 'Elsevier AuthorHub',
+              name: 'Snapp Notifier',
               address: config.mailer.user,
             },
             to: email,
@@ -50,5 +50,11 @@ export const notify = async (store: Store) => {
 }
 
 export const composeMessage = (state: State): string => {
-  return `message`
+  return (
+    `${state.title}\n\n` +
+    `Status: ${state.status}.\n\n` +
+    `${state.events
+      .map((ev) => `➻ ${ev.date}\n${ev.name}`)
+      .join('\n\n')}`
+  )
 }
