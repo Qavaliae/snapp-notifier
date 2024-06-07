@@ -54,7 +54,7 @@ export const composeMessage = (state: State): string => {
     `${state.title}\n\n` +
     `Status: ${state.status}.\n\n` +
     `${state.events
-      .map((ev) => `➻ ${ev.date}\n${ev.name}`)
+      .map((ev) => `➶ ${ev.date}\n${ev.name}`)
       .join('\n\n')}`
   )
 }
