@@ -21,7 +21,7 @@ export const crawl = async (
 
   // Read title and status
   const title = $('.c-banner__title').text()
-  const status = $('.c-details-status__title').text()
+  const status = $('.c-details-card__title[data-current-step-description]').text()
 
   // Read events
   const events: State['events'] = []
