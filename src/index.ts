@@ -4,6 +4,7 @@ import { config } from './config'
 import { crawl } from './crawl'
 import { notify } from './notify'
 import { Store } from './types'
+import { clearTimeout } from 'timers'
 
 const client = new MongoClient(config.db.uri)
 
@@ -58,7 +59,19 @@ const persistStore = async (db: Db, store: Store) => {
 }
 
 //--------------------------------------------------------------
+// Configure program timeout
+//--------------------------------------------------------------
+
+const timeout = setTimeout(() => {
+  console.error(`program timed out`)
+  process.exit(1)
+}, 60e3)
+
+//--------------------------------------------------------------
 // Run program
 //--------------------------------------------------------------
 
-main().finally(() => client.close())
+main().finally(() => {
+  client.close()
+  clearTimeout(timeout)
+})
