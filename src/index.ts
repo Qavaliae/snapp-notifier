@@ -4,7 +4,6 @@ import { config } from './config'
 import { crawl } from './crawl'
 import { notify } from './notify'
 import { Store } from './types'
-import { clearTimeout } from 'timers'
 
 const client = new MongoClient(config.db.uri)
 
