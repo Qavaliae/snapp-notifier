@@ -61,7 +61,7 @@ const persistStore = async (db: Db, store: Store) => {
 // Configure program timeout
 //--------------------------------------------------------------
 
-const timeout = setTimeout(() => {
+setTimeout(() => {
   console.error(`program timed out`)
   process.exit(1)
 }, 90e3)
@@ -71,6 +71,9 @@ const timeout = setTimeout(() => {
 //--------------------------------------------------------------
 
 main().finally(() => {
+  // Close database connection
   client.close()
-  clearTimeout(timeout)
+
+  // Bypass timeout and potentially pending subprocesses
+  process.exit(0)
 })
