@@ -75,5 +75,5 @@ main().finally(() => {
   client.close()
 
   // Bypass timeout and potentially pending subprocesses
-  process.exit(0)
+  process.exit()
 })
